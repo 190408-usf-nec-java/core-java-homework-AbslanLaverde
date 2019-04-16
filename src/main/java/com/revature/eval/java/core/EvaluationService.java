@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EvaluationService {
@@ -461,13 +462,13 @@ public class EvaluationService {
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
 		
-		//I want to create a new string that I can add to, so I created str2
-		String str2 = "";
-		
 		//I know I can use a regex to pick out vowels and consonant groups, 
 		//so i would use patter.compile to pick out those patterns
-		Pattern aeiou = Pattern.compile("^[aeiou]");
-		Pattern cons = Pattern.compile("[^aeiou]");
+		Pattern aeiou = Pattern.compile("^([aeiou])");
+		Pattern cons = Pattern.compile("([qu]+|[^aeiouy]+|y(?=[aeiou]))");
+		
+		//I want to create a new string that I can add to, so I created str2
+		String str2 = "";
 		
 		//I can use this enhance for loop to iterate through an array 
 		//split by spaced
@@ -475,16 +476,26 @@ public class EvaluationService {
 		{
 			//here i want to say that if the word begins with a vowel
 			//throw the word into str2 
-			if(aeiou)
-			//if it begins with a consonant, throw the consanant to the end of the word
+			if(aeiou.matcher(x).find()) 
+			{
+				str2 += x;
+			}
+			//if it begins with a consonant, throw the consonant to the end of the word
 			//bring the rest of the word to the beginning
-			else(cons)
+			else 
+			{
+				Matcher match = cons.matcher(x);
+				if(match.find())
+				str2 += x.substring(match.end()) + match.group();	
+			}
+			
+			//and here i would say, take str2 and add "ay"
+			str2 = str2 + "ay"; 
 		}
 		
-		//and here i would say, take str2 and add "ay"
-		str2 = str2 + "ay"
 		
-		eturn str2;
+		
+		return str2;
 		
 	}
 
@@ -545,11 +556,11 @@ public class EvaluationService {
 		
 		// creating a list of type long and setting it equal to a new array list of type long
 		List<Long> primeNums = new ArrayList<Long>();
-		//standard for loop with a long variable instead of in
-		for(long i = 2; i<= 1; i++) 
+		//standard for loop with a long variable instead of int
+		for(long i = 2; i<= l; i++) 
 		{
 			//a while loop to loop through as long as the modulus comes out to 0
-			while(1 % i == 0) 
+			while(l % i == 0) 
 			{
 				//if the modulus of i come out to 0, then add to the list
 				primeNums.add(i);
@@ -653,7 +664,244 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			
+			String string2 = string.replaceAll("[\\,\\.]+", " ").toLowerCase();
+			String translation = "";
+			String [] strArr = string2.split(" ");
+			Map<Integer, Character> map1 = new HashMap<>();
+		
+			map1.put(1, 'a');
+			map1.put(2, 'b');
+			map1.put(3, 'c');
+			map1.put(4, 'd');
+			map1.put(5, 'e');
+			map1.put(6, 'f');
+			map1.put(7, 'g');
+			map1.put(8, 'h');
+			map1.put(9, 'i');
+			map1.put(10, 'j');
+			map1.put(11, 'k');
+			map1.put(12, 'l');
+			map1.put(13, 'm');
+			map1.put(14, 'n');
+			map1.put(15, 'o');
+			map1.put(16, 'p');
+			map1.put(17, 'q');
+			map1.put(18, 'r');
+			map1.put(19, 's');
+			map1.put(20, 't');
+			map1.put(21, 'u');
+			map1.put(22, 'v');
+			map1.put(23, 'w');
+			map1.put(24, 'x');
+			map1.put(25, 'y');
+			map1.put(26, 'z');
+			
+			for(int i = 0; i < strArr.length; i++) 
+			{
+				char [] charArr = strArr[i].toCharArray();
+				for(int j = 0; j<charArr.length; j++) 
+				{	
+					char letter = charArr[j];
+					
+					if(Character.isDigit(charArr[j])) 
+					{
+						translation += charArr[j];
+					}
+					switch(letter) 
+					{
+						case 'a':
+							translation += map1.get(26);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'b':
+							translation += map1.get(25);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'c':
+							translation += map1.get(24);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'd':
+							translation += map1.get(23);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'e':
+							translation += map1.get(22);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'f':
+							translation += map1.get(21);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'g':
+							translation += map1.get(20);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'h':
+							translation += map1.get(19);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'i':
+							translation += map1.get(18);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'j':
+							translation += map1.get(17);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'k':
+							translation += map1.get(16);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'l':
+							translation += map1.get(15);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'm':
+							translation += map1.get(14);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'n':
+							translation += map1.get(13);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'o':
+							translation += map1.get(12);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'p':
+							translation += map1.get(11);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'q':
+							translation += map1.get(10);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'r':
+							translation += map1.get(9);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 's':
+							translation += map1.get(8);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 't':
+							translation += map1.get(7);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'u':
+							translation += map1.get(6);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'v':
+							translation += map1.get(5);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'w':
+							translation += map1.get(4);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'x':
+							translation += map1.get(3);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'y':
+							translation += map1.get(2);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+						case 'z':
+							translation += map1.get(1);
+							if(j==charArr.length-1) 
+							{
+								translation += " ";
+							}
+							break;
+					}
+					
+				}
+			
+				
+			}
+			String translation2 = translation.replace(" ", "");
+			String trans3 = translation2.replaceAll(".....(?!$)", "$0 ");
+			
+			return trans3;
 		}
 
 		/**
@@ -664,7 +912,132 @@ public class EvaluationService {
 		 */
 		public static String decode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			String decode = "";
+			String noSpace = string.replaceAll(" ", "");
+			char [] givenArr = noSpace.toCharArray();
+			
+			Map<Integer, Character> map2 = new HashMap<>();
+			
+			map2.put(1, 'a');
+			map2.put(2, 'b');
+			map2.put(3, 'c');
+			map2.put(4, 'd');
+			map2.put(5, 'e');
+			map2.put(6, 'f');
+			map2.put(7, 'g');
+			map2.put(8, 'h');
+			map2.put(9, 'i');
+			map2.put(10, 'j');
+			map2.put(11, 'k');
+			map2.put(12, 'l');
+			map2.put(13, 'm');
+			map2.put(14, 'n');
+			map2.put(15, 'o');
+			map2.put(16, 'p');
+			map2.put(17, 'q');
+			map2.put(18, 'r');
+			map2.put(19, 's');
+			map2.put(20, 't');
+			map2.put(21, 'u');
+			map2.put(22, 'v');
+			map2.put(23, 'w');
+			map2.put(24, 'x');
+			map2.put(25, 'y');
+			map2.put(26, 'z');
+			
+			for(int i = 0; i <givenArr.length; i++) 
+			{
+				char letter = givenArr[i];
+				
+				if(Character.isDigit(givenArr[i])) 
+				{
+					decode += givenArr[i];
+				}
+				switch(letter) 
+				{
+					case 'a':
+						decode += map2.get(26);
+						break;
+					case 'b':
+						decode += map2.get(25);
+						break;
+					case 'c':
+						decode += map2.get(24);
+						break;
+					case 'd':
+						decode += map2.get(23);
+						break;
+					case 'e':
+						decode += map2.get(22);
+						break;
+					case 'f':
+						decode += map2.get(21);
+						break;
+					case 'g':
+						decode += map2.get(20);
+						break;
+					case 'h':
+						decode += map2.get(19);
+						break;
+					case 'i':
+						decode += map2.get(18);
+						break;
+					case 'j':
+						decode += map2.get(17);
+						break;
+					case 'k':
+						decode += map2.get(16);
+						break;
+					case 'l':
+						decode += map2.get(15);
+						break;
+					case 'm':
+						decode += map2.get(14);
+						break;
+					case 'n':
+						decode += map2.get(13);
+						break;
+					case 'o':
+						decode += map2.get(12);
+						break;
+					case 'p':
+						decode += map2.get(11);
+						break;
+					case 'q':
+						decode += map2.get(10);
+						break;
+					case 'r':
+						decode += map2.get(9);
+						break;
+					case 's':
+						decode += map2.get(8);
+						break;
+					case 't':
+						decode += map2.get(7);
+						break;
+					case 'u':
+						decode += map2.get(6);
+						break;
+					case 'v':
+						decode += map2.get(5);
+						break;
+					case 'w':
+						decode += map2.get(4);
+						break;
+					case 'x':
+						decode += map2.get(3);
+						break;
+					case 'y':
+						decode += map2.get(2);
+						break;
+					case 'z':
+						decode += map2.get(1);
+						break;
+				}
+			}
+			
+			
+			return decode;
 		}
 	}
 
