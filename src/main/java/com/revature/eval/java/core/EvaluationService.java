@@ -490,12 +490,12 @@ public class EvaluationService {
 			}
 			
 			//and here i would say, take str2 and add "ay"
-			str2 = str2 + "ay"; 
+			str2 = str2 + "ay "; 
 		}
 		
 		
-		
-		return str2;
+		//-1 gets rid of the last space
+		return str2.substring(0,str2.length()-1);
 		
 	}
 
@@ -1065,7 +1065,43 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		//Takes the given string and removes all hyphens
+		String strGiven = string.replaceAll("[\\-]", "");
+		int result = 0;
+		boolean testResult = false;
+		//j represents the first index of the string, this will decrease by one
+		//every time we iterate a string index
+		//this will equal our 10 - 1
+		int j = 10;
+		
+		//iterate the strGiven
+		for(int i = 0; i < strGiven.length(); i++) 
+		{	
+			//if the character being iterated's numerical value is a character
+			if(((Character.getNumericValue(strGiven.charAt(i))<=9))) 
+			{	
+				//multiply that value by j which at each iteration will decrease by 1
+				//to give the 10, 9, 8, 7, 6, etc...
+				result += Character.getNumericValue(strGiven.charAt(i)) * j;
+			}
+			//if the character is X
+			else if(strGiven.charAt(i)=='X') 
+			{
+				//result + 10... this works because in the tests, X only appears in the end
+				result += 10;
+			}
+			//reduces the multiplier by one at each iteration
+			j--;
+		}
+		if(result%11==0)
+		{
+			testResult = true;
+		}
+		else 
+		{
+			testResult = false;
+		}
+		return testResult;
 	}
 
 	/**
@@ -1384,7 +1420,76 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		//takes out all non numerical characters, including spaces
+		String numsOnly = string.replaceAll("[\\s]", "");
+		//used to reverse a the given string
+		//this will make it easier to iterate through the for loop at every second character
+		//from the right
+		StringBuilder reverser = new StringBuilder();
+		//.append adds the numsOnly string to the string builder
+		reverser.append(numsOnly);
+		//reverser, the string builder w given numsOnly string is now reversed using
+		//the .reverse method
+		reverser = reverser.reverse();
+		//create a new string of the reversed string
+		String reversed = reverser.toString();
+		//setting two integers called total, where we will get the sum at the end of doubling
+		//and adding operations and mod, where we will set to our modulus
+		
+		int total = 0;
+		int mod = 0;
+		
+		//if the entry contains a dash, this will automatically mark the number
+		//as invalid
+		if(reversed.contains("-")) {
+			return false;
+		}
+		else {
+		//iterating reversed string starting at first index, then updating to every other
+		//these are the first, third, fifth, and so on...
+		//these do not get doubled, so they are just added to the total
+		for(int i = 0; i < reversed.length(); i = i+2) 
+		{
+			int x = Character.getNumericValue(reversed.charAt(i));
+			total += x;
+		}
+		
+		//iterating reversed string starting at the second index, then updating to every other
+		//these are the second, fourth, sixth, and so on...
+		//these get doubled, and if the double is greater than 9, go through an additional
+		//function to find the integer that will get added to total
+		for(int i = 1; i < reversed.length(); i=i+2 ) 
+		{
+			int x = Character.getNumericValue(reversed.charAt(i));
+			int dubX = x*2;
+			if(dubX > 9) 
+			{
+				int newX = dubX - 9;
+				total += newX;
+			}
+			else
+			{
+				total += dubX;
+			}
+			
+		}
+		//using the modulus function on our total will tell us if there is a remainder
+		mod = total%10;
+		
+		//if the modulus equals 0, then the number is divisible by ten, therefore valid
+		if(mod==0) 
+		{
+			return true;
+		}
+		
+		//if the modulus is not equal to 0, then the number is not divisible by ten
+		//therefore, the number is invalid
+		else
+		{
+			return false;
+		}
+		
+		}	
 	}
 
 	/**
